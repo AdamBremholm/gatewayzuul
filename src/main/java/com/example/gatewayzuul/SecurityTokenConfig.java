@@ -24,7 +24,7 @@ public class SecurityTokenConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 // handle an authorized attempts
-                .exceptionHandling().authenticationEntryPoint((req, rsp, e) -> rsp.sendRedirect("/accessDenied.jsp"))
+                .exceptionHandling().authenticationEntryPoint((req, rsp, e) -> rsp.sendRedirect("/static/accessDenied.jsp"))
                 .and()
                 // Add a filter to validate the tokens with every request
                 .addFilterAfter(new JwtTokenAuthenticationFilter(jwtConfig), UsernamePasswordAuthenticationFilter.class)
@@ -33,7 +33,7 @@ public class SecurityTokenConfig extends WebSecurityConfigurerAdapter {
                 // allow all who are accessing "auth" service
                 .antMatchers(HttpMethod.POST, jwtConfig.getUri()).permitAll()
                 //Tillåter alla som ska till accessDenied sidan
-                .antMatchers(HttpMethod.GET, "/accessDenied.jsp").permitAll()
+                .antMatchers(HttpMethod.GET, "/static/accessDenied.jsp").permitAll()
                 // Any other request must be authenticated
                 .anyRequest().authenticated();
     }
