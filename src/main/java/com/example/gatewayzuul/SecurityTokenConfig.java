@@ -18,6 +18,10 @@ public class SecurityTokenConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
+                // make sure we use stateless session; session won't be used to store user's state.
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .addFilterAfter(new JwtTokenAuthenticationFilter(jwtConfig), UsernamePasswordAuthenticationFilter.class)
                 // authorization requests config
                 .authorizeRequests()
@@ -29,10 +33,7 @@ public class SecurityTokenConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 //https://en.wikipedia.org/wiki/Cross-site_request_forgery
-                .csrf().disable()
-                // make sure we use stateless session; session won't be used to store user's state.
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+
                 // handle an authorized attempts
                 .exceptionHandling().authenticationEntryPoint((req, rsp, e) -> rsp.sendRedirect("/accessDenied.html"))
                 .and()

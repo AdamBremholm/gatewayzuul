@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>
-        Authentication
-    </title>
+    <title>Authentication</title>
+
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
@@ -14,6 +13,9 @@
 </head>
 <body>
 <h3 class="text-center">Authentication</h3>
+
+
+
 <div class="container">
     <form>
         <div class="form-group">
@@ -28,24 +30,59 @@
     </form>
     <div id="token-display">
     </div>
+    <h1>
+        Bearer-token is:
+        <div id="bearer-display">
+        </div>
+    </h1>
+    <h1>
+        Axesor response is:
+        <div id="axesor-response">
+        </div>
+    </h1>
+
 </div>
 </br>
 </br>
 
 <script type="text/javascript">
+    var token;
+
     auth= function(){
         var xhttp = new XMLHttpRequest();
-        data={name:document.getElementById("username").value,password:document.getElementById("password").value}
+        data={username:document.getElementById("username").value,password:document.getElementById("password").value}
         xhttp.onreadystatechange = function() {
             if (xhttp.readyState==4) {
                 var response = xhttp.responseText;
+                var unModifiedToken = xhttp.getResponseHeader("authorization");
+                token = unModifiedToken.slice(7);
+                redirect();
+
+                document.getElementById("bearer-display").innerHTML = token;
+
                 document.getElementById("token-display").innerHTML = response;
             }
         };
         xhttp.open("POST", "http://localhost:8080/auth", true);
         xhttp.setRequestHeader("Content-type", 'application/json; charset=UTF-8');
         xhttp.send(JSON.stringify(data));
+
+
     }
+
+    redirect = function() {
+        var xhttp = new XMLHttpRequest();
+        if (xhttp.readyState==4) {
+            var response = xhttp.responseText;
+            document.getElementById("axesor-response").innerHTML = response;
+        }
+        xhttp.open("GET", "http://localhost:8080/specs/televisions", true);
+        xhttp.setRequestHeader('Authorization', 'Bearer ' + token);
+        xhttp.send();
+
+    }
+
+
 
 </script>
 </body>
