@@ -56,8 +56,6 @@
                 document.getElementById("bearer-display").innerHTML = token;
                 document.getElementById("token-display").innerHTML = response;
 
-
-
             }
         };
         xhttp.open("POST", "http://localhost:8080/auth", true);
@@ -79,9 +77,9 @@
 
             }
         }
-        xhttp.open("GET", "http://localhost:8080/axesor/axesor.html", true);
+        xhttp.open("POST", "http://localhost:8080/axesor/getToken", true);
         xhttp.setRequestHeader('Authorization', 'Bearer ' + token);
-        xhttp.send();
+        xhttp.send(JSON.stringify(token));
 
     }
 
