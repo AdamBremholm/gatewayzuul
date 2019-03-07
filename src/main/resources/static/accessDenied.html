@@ -53,14 +53,16 @@
         data={username:document.getElementById("username").value,password:document.getElementById("password").value}
         xhttp.onreadystatechange = function() {
             if (xhttp.readyState==4) {
+                console.log("Ready State 4 in first method")
                 var response = xhttp.responseText;
                 var unModifiedToken = xhttp.getResponseHeader("authorization");
                 token = unModifiedToken.slice(7);
                 redirect();
-
                 document.getElementById("bearer-display").innerHTML = token;
-
                 document.getElementById("token-display").innerHTML = response;
+
+
+
             }
         };
         xhttp.open("POST", "http://localhost:8080/auth", true);
@@ -71,12 +73,17 @@
     }
 
     redirect = function() {
+        console.log("second method is running")
         var xhttp = new XMLHttpRequest();
-        if (xhttp.readyState==4) {
-            var response = xhttp.responseText;
-            document.getElementById("axesor-response").innerHTML = response;
+        xhttp.onreadystatechange = function() {
+            if (xhttp.readyState == 4) {
+                console.log("second method is ready state 4")
+                var response = xhttp.responseText;
+                document.getElementById("axesor-response").innerHTML = response;
+                //window.location=xhttp.responseURL;
+            }
         }
-        xhttp.open("GET", "http://localhost:8080/specs/televisions", true);
+        xhttp.open("GET", "http://localhost:8080/axesor/axesor.html", true);
         xhttp.setRequestHeader('Authorization', 'Bearer ' + token);
         xhttp.send();
 
