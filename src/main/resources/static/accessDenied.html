@@ -11,7 +11,7 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
-<body>
+<body id="axesor-response">
 <h3 class="text-center">Authentication</h3>
 
 
@@ -33,11 +33,6 @@
     <h1>
         Bearer-token is:
         <div id="bearer-display">
-        </div>
-    </h1>
-    <h1>
-        Axesor response is:
-        <div id="axesor-response">
         </div>
     </h1>
 
@@ -80,7 +75,8 @@
                 console.log("second method is ready state 4")
                 var response = xhttp.responseText;
                 document.getElementById("axesor-response").innerHTML = response;
-                //window.location=xhttp.responseURL;
+                console.log(response)
+
             }
         }
         xhttp.open("GET", "http://localhost:8080/axesor/axesor.html", true);
