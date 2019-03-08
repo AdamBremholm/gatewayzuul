@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
     <title>Authentication</title>
 
@@ -11,9 +11,9 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
-<body id="axesor-response">
+<body onload=checkIfEmptyAndHide();>
+<div id="div1" class="container">
 <h3 class="text-center">Authentication</h3>
-
 
 
 <div class="container">
@@ -36,17 +36,30 @@
         </div>
     </h1>
 
-    <input id="submitButton" type="button" onclick="" />
+
 
 
 </div>
+
+</div>
+
+<div class="container">
+    <br>
+    <br>
+    <input id="submitButton" class="methodButtons" type="button" onclick="" value="axesor.html Get request"/></input>
+    <br>
+    <input id="getReviews" class="methodButtons" type="button" onclick="" value="GetAllReviews (when reviews is pathed)"/></input>
+    <br>
+</div>
+
+
 </br>
 </br>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 
 <script type="text/javascript">
-    var token;
+    var token = '';
 
     auth= function(){
         var xhttp = new XMLHttpRequest();
@@ -57,9 +70,10 @@
                 var response = xhttp.responseText;
                 var unModifiedToken = xhttp.getResponseHeader("authorization");
                 token = unModifiedToken.slice(7);
-                redirect();
+               // redirect();
                 document.getElementById("bearer-display").innerHTML = token;
                 document.getElementById("token-display").innerHTML = response;
+                checkIfEmptyAndHide();
 
             }
         };
@@ -88,22 +102,72 @@
 
     }
 
+
+
+    checkIfEmptyAndHide = function() {
+        console.log("Token: " + token);
+        const list = document.getElementsByClassName('methodButtons');
+
+        if (token == null || token === '') {
+            for (var i = 0; i < list.length; i++) {
+                list[i].style.display = 'none';
+            }
+        } else {
+            console.log("Else is running");
+            for (var j = 0; j < list.length; j++) {
+                list[j].style.display = 'block';
+            }
+
+
+        }
+
+    }
+
+
+
     $(document).ready(function() {
 
         $('#submitButton').on('click', function () {
             console.log("ajax jquery running")
             $.ajax({
-                url: "http://localhost:8080/axesor/axesors",
+                url: "http://localhost:8080/axesor/axesor.html",
                 type: 'GET',
                 contentType: 'application/json',
                 headers: {
-                    "Authorization": "Bearer " + "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTU1MTk5MDc4NiwiZXhwIjoxNTUyMDc3MTg2fQ.dY6ciuDM51RFr9NoRjTWHYrGXYz2q7QGBO7BWAluDwYZxhTYycbAL1C3pQ849xVlzPwyHJgKa5U1gdA10QBAlA"
+                    "Authorization": "Bearer " + token
+                },
+                success: function(result){
+                    $("#div1").html(result);
                 }
 
             })
         });
 
     });
+
+
+
+    $(document).ready(function() {
+
+        $('#getReviews').on('click', function () {
+
+            $.ajax({
+                url: "http://localhost:8080/reviews/reviews",
+                type: 'GET',
+                contentType: 'application/json',
+                headers: {
+                    "Authorization": "Bearer " + token
+                },
+                success: function(result){
+                    $("#div1").html(JSON.stringify(result, null, 2));
+                }
+
+            })
+        });
+
+    });
+
+
 
 
 
