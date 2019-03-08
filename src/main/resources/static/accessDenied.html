@@ -36,9 +36,14 @@
         </div>
     </h1>
 
+    <input id="submitButton" type="button" onclick="" />
+
+
 </div>
 </br>
 </br>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
 
 <script type="text/javascript">
     var token;
@@ -83,8 +88,28 @@
 
     }
 
+    $(document).ready(function() {
+
+        $('#submitButton').on('click', function () {
+            console.log("ajax jquery running")
+            $.ajax({
+                url: "http://localhost:8080/axesor/axesors",
+                type: 'GET',
+                contentType: 'application/json',
+                headers: {
+                    "Authorization": "Bearer " + "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTU1MTk5MDc4NiwiZXhwIjoxNTUyMDc3MTg2fQ.dY6ciuDM51RFr9NoRjTWHYrGXYz2q7QGBO7BWAluDwYZxhTYycbAL1C3pQ849xVlzPwyHJgKa5U1gdA10QBAlA"
+                }
+
+            })
+        });
+
+    });
+
 
 
 </script>
+
+
+
 </body>
 </html>
