@@ -28,14 +28,14 @@ public class SecurityTokenConfig extends WebSecurityConfigurerAdapter {
                 // allow all who are accessing "auth" service
                 .antMatchers(HttpMethod.POST, jwtConfig.getUri()).permitAll()
                 //Tillåter alla som ska till accessDenied sidan
-                .antMatchers( "/accessDenied.html").permitAll()
+                .antMatchers( "/login.html").permitAll()
                 // Any other request must be authenticated
                 .anyRequest().authenticated()
                 .and()
                 //https://en.wikipedia.org/wiki/Cross-site_request_forgery
 
                 // handle an authorized attempts
-                .exceptionHandling().authenticationEntryPoint((req, rsp, e) -> rsp.sendRedirect("/accessDenied.html"))
+                .exceptionHandling().authenticationEntryPoint((req, rsp, e) -> rsp.sendRedirect("/login.html"))
                 .and()
                 // Add a filter to validate the tokens with every request
                 ;

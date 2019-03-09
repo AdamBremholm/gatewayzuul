@@ -46,9 +46,15 @@
 <div class="container">
     <br>
     <br>
-    <input id="submitButton" class="methodButtons" type="button" onclick="" value="axesor.html Get request"/></input>
+    <input id="listAxesors" class="methodButtons" type="button" onclick="" value="List Axessor"/></input>
     <br>
-    <input id="getReviews" class="methodButtons" type="button" onclick="" value="GetAllReviews (when reviews is pathed)"/></input>
+    <input id="getMockData" class="methodButtons" type="button" onclick="" value="Get mock data from prisjakt"/></input>
+    <br>
+    <input id="loadInfo" class="methodButtons" type="button" onclick="" value="Combine specs and review to axesor object "/></input>
+    <br>
+    <input id="ratingPrice" class="methodButtons" type="button" onclick="" value="Get axesors and sort by ratingprice"/></input>
+    <br>
+    <input id="getRatingPerInch" class="methodButtons" type="button" onclick="" value="Get all axesors and sort by rating/inch"/></input>
     <br>
 </div>
 
@@ -127,17 +133,17 @@
 
     $(document).ready(function() {
 
-        $('#submitButton').on('click', function () {
+        $('#listAxesors').on('click', function () {
             console.log("ajax jquery running")
             $.ajax({
-                url: "http://localhost:8080/axesor/axesor.html",
+                url: "http://localhost:8080/axesor/axesors",
                 type: 'GET',
                 contentType: 'application/json',
                 headers: {
                     "Authorization": "Bearer " + token
                 },
                 success: function(result){
-                    $("#div1").html(result);
+                    $("#div1").html(JSON.stringify(result, null, 2));
                 }
 
             })
@@ -149,10 +155,71 @@
 
     $(document).ready(function() {
 
-        $('#getReviews').on('click', function () {
+        $('#getMockData').on('click', function () {
 
             $.ajax({
-                url: "http://localhost:8080/reviews/reviews",
+                url: "http://localhost:8080/axesor/mockdata",
+                type: 'GET',
+                contentType: 'application/json',
+                headers: {
+                    "Authorization": "Bearer " + token
+                },
+                success: function(result){
+                    $("#div1").html(JSON.stringify(result, null, 2));
+                }
+
+            })
+        });
+
+    });
+
+
+    $(document).ready(function() {
+
+        $('#loadInfo').on('click', function () {
+
+            $.ajax({
+                url: "http://localhost:8080/axesor/loadinfo",
+                type: 'GET',
+                contentType: 'application/json',
+                headers: {
+                    "Authorization": "Bearer " + token
+                },
+                success: function(result){
+                    $("#div1").html(JSON.stringify(result, null, 2));
+                }
+
+            })
+        });
+
+    });
+
+    $(document).ready(function() {
+
+        $('#ratingPrice').on('click', function () {
+
+            $.ajax({
+                url: "http://localhost:8080/axesor/ratingprice",
+                type: 'GET',
+                contentType: 'application/json',
+                headers: {
+                    "Authorization": "Bearer " + token
+                },
+                success: function(result){
+                    $("#div1").html(JSON.stringify(result, null, 2));
+                }
+
+            })
+        });
+
+    });
+
+    $(document).ready(function() {
+
+        $('#getRatingPerInch').on('click', function () {
+
+            $.ajax({
+                url: "http://localhost:8080/axesor/ratingpriceinch",
                 type: 'GET',
                 contentType: 'application/json',
                 headers: {
